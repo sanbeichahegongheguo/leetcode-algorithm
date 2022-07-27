@@ -1,12 +1,14 @@
 ## 四数之和
-描述
+
+## 描述
+
 >给定一个包含 n 个整数的数组 nums 和一个目标值 target，判断 nums 中是否存在四个元素 a，b，c 和 d ，使得 a + b + c + d 的值与 target 相等？找出所有满足条件且不重复的四元组。
 
-注意：
+### 注意：
 
 >答案中不可以包含重复的四元组。
 
-示例：
+### 示例：
 
 >给定数组 nums = [1, 0, -1, 0, -2, 2]，和 target = 0。
 >满足要求的四元组集合为：
@@ -16,9 +18,12 @@
 >[-2,  0, 0, 2]
 >]
 
-分析，前面我们做过[三数之和](https://bigsai.blog.csdn.net/article/details/108299163)。这里四数之和也采用比较相似的方法。
+## 分析
 
-三数之和固定循环一层i，然后left和right从右侧向中间双指针试探
+前面我们做过[三数之和](https://bigsai.blog.csdn.net/article/details/108299163) / [三数之和](../数组/LeetCode 15三数之和(双指针).md)。这里四数之和也采用比较相似的方法。
+
+三数之和固定循环一层`i`，然后`left`和`right`从右侧向中间双指针试探：
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/2020090121370362.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNjkzMTcx,size_1,color_FFFFFF,t_70#pic_center)
 
 **分析**
@@ -36,44 +41,61 @@
 
 ```java
 public List<List<Integer>> fourSum(int[] nums, int target) {
-        Arrays.sort(nums);
-		 List<List<Integer>> list = new ArrayList<List<Integer>>();
-		 if(nums.length<4)return list;
-		 if(nums[nums.length-1]+nums[nums.length-2]+nums[nums.length-3]+nums[nums.length-4]<target)return list;	
-		 for(int i=0;i<nums.length-3;i++)
-		 {
-			 if(i>0&&nums[i]==nums[i-1]) {continue;}//去重，这种情况不需要
-			 if(nums[i]+nums[i+1]+nums[i+2]+nums[i+3]>target) return list;//过滤不可能满足的
-			 for(int j=i+1;j<nums.length-2;j++)
-			 {
-				 if(j>i+1&&nums[j]==nums[j-1]) {continue;}//去重，这种情况不需要
-				 if(nums[i]+nums[j]+nums[j+1]+nums[j+2]>target)break;//过滤不可能满足的
-				 int left=j+1; int right=nums.length-1;
-				 while (left<right) { 
-					int sum=nums[i]+nums[j]+nums[left]+nums[right];
-					if(nums[i]+nums[j]+nums[left]+nums[left+1]>target)break;
-					if(sum==target)
-					{
-						while (left<nums.length-1&&nums[left]==nums[left+1]) {left++;}
-						while (right>0&&nums[right]==nums[right-1]) {right--;}
-						List<Integer>list2=new ArrayList<Integer>();
-						list2.add(nums[i]);list2.add(nums[j]);
-						list2.add(nums[left]);list2.add(nums[right]);
-						list.add(list2);
-					}
-					if(left>right)break;
-					if(sum>target)
-					{
-						right--;
-					}
-					else {
-						left++;
-					}					
+    Arrays.sort(nums);
+	List<List<Integer>> list = new ArrayList<List<Integer>>();
+	if(nums.length<4)
+        return list;
+	if(nums[nums.length-1]+nums[nums.length-2]+nums[nums.length-3]+nums[nums.length-4]<target)
+        return list;
+    
+	for(int i=0; i<nums.length-3; i++) {
+        if(i>0&&nums[i]==nums[i-1]) {
+            continue; //去重，这种情况不需要
+		if(nums[i]+nums[i+1]+nums[i+2]+nums[i+3]>target) 
+            return list;//过滤不可能满足的
+                
+		for(int j=i+1;j<nums.length-2;j++) {
+			if(j>i+1&&nums[j]==nums[j-1]) 
+                continue; //去重，这种情况不需要
+
+            if(nums[i]+nums[j]+nums[j+1]+nums[j+2]>target)
+                break;//过滤不可能满足的
+            
+			int left = j+1; 
+            int right = nums.length-1;
+			while (left < right) { 
+				int sum = nums[i]+nums[j]+nums[left]+nums[right];
+				if(nums[i]+nums[j]+nums[left]+nums[left+1]>target)
+                    break;
+				
+                if(sum==target) {
+					while (left<nums.length-1&&nums[left]==nums[left+1]) {
+                        left++;
+                    }
+					while (right>0&&nums[right]==nums[right-1]) {
+                        right--;
+                    }
+					
+                    List<Integer>list2 = new ArrayList<Integer>();
+					list2.add(nums[i]);
+                    list2.add(nums[j]);
+					list2.add(nums[left]);
+                    list2.add(nums[right]);
+					list.add(list2);
 				}
-			 }
-		 }
-		 return list;
-    }
+				
+                if(left>right)
+                    break;
+				if(sum>target) {
+					right--;
+					} else {
+					left++;
+				}					
+			}
+		}
+	}
+	return list;
+}
 ```
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200901214638292.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwNjkzMTcx,size_1,color_FFFFFF,t_70#pic_center)
