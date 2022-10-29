@@ -29,7 +29,7 @@ public static int divide(int dividend, int divisor) {
 		else if (dividend<0&&divisor<0) {
 			divd=-divd;divs=-divs;
 		}
-	
+
 		if(Math.abs(divd)<Math.abs(divs))return 0;
 		long i=0,index=0;
 		if(divs==1)i=divd+1;
@@ -64,7 +64,7 @@ public static int divide(int dividend, int divisor)
 		long value=0;//记录总次数结果
 		int time=1;//临时每次的次数
 		long divd=dividend,divs=divisor;//转成long处理
-		
+
 		int zhengfu=1;//判断是正数还是负数
 		if(divd<0)
 		{
@@ -82,12 +82,12 @@ public static int divide(int dividend, int divisor)
 				divd-=team;
 				team=divs;
 				time=1;
-				
+
 				continue;
 			}
 			team+=team;
 			time+=time;
-			
+
 		}
 		return (int) (zhengfu==1?value:-value);
 	}
